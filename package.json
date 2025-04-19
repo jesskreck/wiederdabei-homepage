@@ -33,6 +33,7 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
+		"@hotjar/browser": "^1.0.9",
 		"@supabase/supabase-js": "^2.49.4",
 		"supabase": "^2.20.12",
 		"svelte-typewrite": "^3.0.0",
