@@ -73,7 +73,7 @@
 				>
 					{$t.hero.button} <span aria-hidden="true">&rarr;</span>
 				</button>
-				<h1 class="mb-15 text-4xl font-bold md:text-5xl lg:text-6xl">
+				<h1 class="mb-15 text-4xl font-bold md:text-5xl lg:text-6xl h-20">
 					<TypeWriter texts={[$t.hero.title]} />
 				</h1>
 				<p class="mx-auto mb-25 max-w-3xl text-xl opacity-90 md:text-2xl">
@@ -270,7 +270,7 @@
 									{#if isSubmitting}
 										<span class="loading loading-spinner"></span>
 									{:else}
-										{@html $t.emailForm.submit}
+										<span>{@html $t.emailForm.submit}</span>
 									{/if}
 								</button>
 								<p>{$t.emailForm.privacy}</p>
@@ -302,7 +302,7 @@
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step1.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step1.title}</div>
 						{$t.timeline.step1.description}
 					</div>
 					<hr />
@@ -323,8 +323,8 @@
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step2.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step2.title}</div>
 						{$t.timeline.step2.description}
 					</div>
 					<hr />
@@ -346,7 +346,7 @@
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step3.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step3.title}</div>
 						{$t.timeline.step3.description}
 					</div>
 					<hr />
@@ -367,8 +367,8 @@
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step4.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step4.title}</div>
 						{$t.timeline.step4.description}
 					</div>
 					<hr />
@@ -390,7 +390,7 @@
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step5.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step5.title}</div>
 						{$t.timeline.step5.description}
 					</div>
 					<hr />
@@ -411,8 +411,8 @@
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step6.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step6.title}</div>
 						{$t.timeline.step6.description}
 					</div>
 					<hr />
@@ -434,7 +434,7 @@
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step7.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step7.title}</div>
 						{$t.timeline.step7.description}
 					</div>
 				</li>
