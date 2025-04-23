@@ -1,0 +1,147 @@
+{
+    "hero": {
+      "button": "İş piyasası bir güncellemeye ihtiyaç duyuyor",
+      "title": "Sen dışarıda değilsin. Sana ihtiyaç var!",
+      "subtitle": "\"Artık istihdam edilemez?\" – Buna bir son verelim. Sorun sen değilsin. Sana anlamlı, uygun bir iş bulacağız.",
+      "cta": {
+        "primary": "Hemen başla",
+        "secondary": "Nasıl çalışıyor?"
+      }
+    },
+    "examples": {
+      "title1": "\"60 yaşında yeniden başlamak?",
+      "subtitle1": "Evet – eğer bana şans verilirse.\"",
+      "description1": "Komşuluk destek programında <strong>çocuk bakıcısı</strong> olun.",
+      "title2": "\"20 yıl boyunca çok çalıştım.",
+      "subtitle2": "Bunun değerli olmasını istiyorum.\"",
+      "description2": "Bir <strong>bisiklet atölyesine</strong> tamirci olarak katılın.",
+      "title3": "\"Yeterince kağıt işi.",
+      "subtitle3": "Çalışmak istiyorum – düzgünce.\"",
+      "description3": "Yetişkin gündüz bakımında <strong>bakım asistanı</strong> olun.",
+      "title4": "\"Çalışmak? Kendimi tekrar hazır hissediyorum.",
+      "subtitle4": "Adil bir çalışma ortamında.\"",
+      "description4": "Yeşil alan bakımcısı olarak <strong>yerel topluluğunuza</strong> katılın.",
+      "card": {
+        "title": "Neyde iyisin? Sana ne uygun?",
+        "subtitle": "Sana ihtiyaç duyan bir işveren bulacağız.",
+        "cta": "İşe yerleşmende yardımcı olmamıza izin ver."
+      }
+    },
+    "form": {
+      "title": "Sana nasıl yardımcı oluyoruz?",
+      "description1": "Tekrar çalışmak istiyor ama şans bulamıyor musun? İş merkezi önlemleri sana yardımcı olmuyor mu? Artık iş başvuruları yazmanın bir işe yarayacağına inanmıyor musun?",
+      "description2": "<strong>2 yıldan fazla işsiz kaldıysan</strong>, sana şunları sağlayacağız:",
+      "benefits": {
+        "job": "Sosyal güvenceli, <strong>sana uyan faaliyetlere</strong> ve <strong>çalışma saatlerine</strong> sahip bir iş.",
+        "coach": "Yeni işindeki <strong>sorunlarda</strong> sana <strong>yardımcı olacak</strong> bir <strong>koç</strong>.",
+        "training": "Ve (istersen) <strong>daha sağlıklı bir günlük yaşam</strong> sürmeyi öğreten bir <strong>eğitim</strong>."
+      },
+      "cta": "<strong>E-posta adresini</strong> gir ve sana yardım edelim!"
+    },
+    "emailForm": {
+      "title": "Yeni başlangıcın bugün başlıyor",
+      "description": "<strong>Ne kadar uzun süredir dışarıda olduğun önemli değil</strong> - seni iş hayatına geri döndürmene yardımcı olacağız. <strong>Ücretsiz ilk bilgileri</strong> almak için kaydol:",
+      "email": "E-posta",
+      "placeholder": "E-posta adresini gir",
+      "submit": "Şimdi <strong>ücretsiz</strong> kaydol",
+      "privacy": "Verileriniz gizli tutulacaktır. İstediğiniz zaman abonelikten çıkabilirsiniz."
+    },
+    "timeline": {
+      "step1": {
+        "title": "Seninle 30 dakika konuşuyoruz.",
+        "description": "Neyde iyi olduğunu - ve ne yapmak istediğini bize anlat."
+      },
+      "step2": {
+        "title": "İş önerileri alıyorsun.",
+        "description": "Sana uyan işleri gösteriyoruz. Neyin ilgini çektiğine sen karar veriyorsun."
+      },
+      "step3": {
+        "title": "Senin için bir işveren buluyoruz.",
+        "description": "Özgeçmişe ihtiyacın yok. Başvuru yok. Senin için biz arıyoruz."
+      },
+      "step4": {
+        "title": "Kendini şahsen tanıtıyorsun.",
+        "description": "Gidip onlarla konuşuyorsun. Basit. Kişisel. Eski günlerdeki gibi."
+      },
+      "step5": {
+        "title": "İşin sübvanse ediliyor.",
+        "description": "Kurum maaşının bir kısmını veya tamamını karşılıyor."
+      },
+      "step6": {
+        "title": "Başvuruyu seninle birlikte tamamlıyoruz.",
+        "description": "Kurumdan bir form var. Birlikte dolduruyoruz."
+      },
+      "step7": {
+        "title": "İşi alıyorsun.",
+        "description": "Çalışıyorsun. Tam maaşla. Ve koç olarak seni desteklemeye devam ediyoruz!"
+      },
+      "cta": "Seni işe yerleştirelim"
+    },
+    "faq": {
+      "title": "Sık Sorulan Sorular",
+      "items": [
+        {
+          "question": "Hizmetlerinizi kimler kullanabilir?",
+          "answer": "Hizmetlerimiz, uzun bir aradan sonra (iki yıldan fazla) işgücüne yeniden girmek isteyen veya ret ve zorluklara rağmen yeni bir profesyonel fırsat arayan herkese yöneliktir. İster ebeveyn izni, hastalık, işsizlik veya kariyer yönelimi değişikliğinden sonra olsun – ayağa kalkmanıza yardımcı oluyoruz."
+        },
+        {
+          "question": "İş başvurusu yazmam gerekiyor mu?",
+          "answer": "Hayır. Gerçekten hayır. Özgeçmiş yok, ön yazı yok. Seninle konuşuyoruz, bize ne yapabildiğini anlatıyorsun – ve gerisini biz hallediyoruz."
+        },
+        {
+          "question": "Artık normal bir işim olabileceğini hayal edemiyorum.",
+          "answer": "Anlıyoruz. Buradaki birçok kişi her şeyden geçti – önlemler, başvurular, redler. Fark şu: Bizde önceden finansmanı sağladığımız için işler var. Ve: İhtiyaç duyuluyorsun, sadece yönetilmiyorsun. İstersen, neyin mümkün olduğunu birlikte bulabiliriz."
+        },
+        {
+          "question": "Desteğiniz ne kadara mal oluyor?",
+          "answer": "Hiçbir şey. Yerleştirme senin için ücretsiz. İş merkezi maaşını karşılıyor – işverenin sadece bir kısmını ödüyor veya hiçbir şey ödemiyor. Bu senin için şu anlama geliyor: Maaşlı, sosyal sigortalı, emeklilik sigortalı gerçek bir iş ve hatta bir koçluk alıyorsun, çünkü bu kadar yıldan sonra yeniden başlamanın ne kadar zor olduğunu biliyoruz."
+        },
+        {
+          "question": "Hangi sektörlerde insan yerleştirebilirsiniz?",
+          "answer": "'Geri dönenlere dost' işverenlerle özel ortaklıklarımız sayesinde, normalde erişilmesi zor olacak alanlarda fırsatlar açılıyor. Bu arada: Eğer 6 yıl veya daha fazla çalışmadıysanız (veya çok az çalıştıysanız), iş merkezi yeni işvereninize iki yıl boyunca tüm maaşınızı ödüyor - bu argümanla, herhangi bir işvereni size ikna edebiliriz! Bunu sizin için biz hallediyoruz."
+        },
+        {
+          "question": "İş bulmak ne kadar sürer?",
+          "answer": "Değişir. Bazen hızlı olur, bazen biraz daha uzun sürer. Ama peşini bırakmıyoruz. Ve düğmeye basıldığında hazır olmanız gerekmiyor – tempoyu siz belirlersiniz. Sizi şu anda bulunduğunuz yerden alıyoruz."
+        },
+        {
+          "question": "Ya uzun süredir çalışmıyorsam?",
+          "answer": "O zaman bu yeni sistemin tam olarak kimin için yapıldığı kişisiniz. Ne kadar uzun olursa olsun – 2 yıl, 6 yıl, 15 yıl – eğer çalışmak istiyorsanız, bunun tekrar mümkün olmasını sağlayacağız."
+        },
+        {
+          "question": "Ya tekrar çalışmanın benim için mümkün olup olmadığını henüz bilmiyorsam?",
+          "answer": "O zaman birlikte öğreniriz. Önce bir konuşalım. Hiçbir şeye taahhüt etmek zorunda değilsin. Staj yoluyla yavaşça geri dönme imkanı da var – veya sadece şunu söylemek: \"Önce kontrol etmek istiyorum.\""
+        },
+        {
+          "question": "Zaten bir yerlerde yardım ediyorum, ama bunun için para almıyorum.",
+          "answer": "Eğer 6 yıldan fazla işsizseniz (veya çok az çalıştıysanız), bunu belki gerçek bir işe dönüştürebiliriz – maaşlı, sigortalı ve destekli. Bizimle iletişime geçin. Kontrol edeceğiz."
+        }
+      ]
+    },
+  "vorhaben": {
+  "title": "Planımız",
+  "description1": "Biz geçici bir önlem değiliz. Kısa vadeli aktivizm değiliz – yapısal değişiklik istiyoruz. Yaşam ve profesyonel deneyime sahip insanların tekrar görülmesini, ihtiyaç duyulmasını ve desteklenmesini istiyoruz.",
+  "description2": "Şu anda sizi <strong>şirketler, kar amacı gütmeyen kuruluşlar, komşuluk destek ağları, belediyeler veya derneklerle</strong> bağlayan bir platform geliştiriyoruz. Bu, becerilerinizi gerçekten kullanabilecek işverenler anlamına gelir - <strong>daha önce işe alım için bütçeleri olmasa bile</strong>. Çünkü: Devlet maaşınızın bir kısmını karşılıyor. Çalışıyorsunuz, size ihtiyaç duyuluyor – ve toplumun bir parçası olarak kalıyorsunuz.",
+  "description3": "Bunun yasal çerçevesi Pasif-Aktif-Transfer (PAT) olarak adlandırılır. Fikir: Size işsizlik ödeneği ödemek yerine, bu para size tekrar gerçek bir iş sahibi olmanızı sağlamak için kullanılır - <strong>sosyal güvenlikli, ücretli, destekli ve perspektifli</strong>.",
+  "callout": "Henüz her şey hazır değil. Ama üzerinde çalışıyoruz. Ve isterseniz, \"<i>Tekrar hoş geldiniz</i>.\" duyacak ilk kişilerden olacaksınız.",
+  "pat": {
+    "title": "PAT tam olarak nasıl çalışır?",
+    "p1": "Pasif-Aktif-Transfer (PAT), insanları artık işsizlikte yönetmeyen – ancak onlar için sosyal değeri olan işler yaratan bir devlet fonlama konseptidir. PAT, yıllar önce Diakonie tarafından bir pilot proje olarak geliştirildi.",
+    "p2": "İşsizlik gibi yardımları doğrudan işsizlere ödemeye devam etmek yerine, iş merkezi bu fonları bir araya getirir ve maaşınızın bir kısmını karşılamak için kullanır. Bu, gerçek, ücretli işler yaratır – işverenlerin daha önce şöyle demek zorunda kaldıkları yerlerde bile: <em>\"Birini işe almak isterdik, ama bunu karşılayamayız.\"</em>",
+    "special": "Özel kılan şey:",
+    "benefits": [
+      "Çalışmak istediğiniz alanda kendi düzenli, sosyal güvenceli işinizi yaratırsınız.",
+      "Sadece \"meşgul edilmiyor\" veya bir önleme konulmuyor, gerçek bir maaşla işe alınıyorsunuz.",
+      "Ve: Maaşınız işverenin katkısı ve sübvansiyondan oluşuyor."
+    ],
+    "mission": "Misyonumuz: Çalışmak isteyenler çalışabilmelidir. Bize ne yapabileceğinizi söyleyin – bunun için işi bulacağız veya yaratacağız."
+  }
+},
+"cta": {
+  "title": "Sistem seni unutmuş olabilir. Biz unutmadık.",
+  "description": "Çalışmak isteyenler çalışabilmelidir. Yaşınız, geçmişiniz, özgeçmişinizdeki boşluklar veya geçmişinizden gelen setbackler geleceğinizi tanımlamaz. İlgi alanlarınıza, becerilerinize ve yaşam durumunuza göre uyarlanmış gerçek, sübvansiyonlu işler organize ediyoruz.",
+  "button": "Seni işe yerleştirelim"
+},
+"footer": {
+  "legal": "Künye ve Gizlilik Politikası"
+}}
