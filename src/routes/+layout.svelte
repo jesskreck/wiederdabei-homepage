@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import { De, Ae, Tr, Ru } from 'svelte-flags';
+	import { De, Gb, Ae, Tr, Ru } from 'svelte-flags';
 	import { currentLang, setLanguage } from '$lib/i18n/i18n';
 
 	let { children } = $props();
@@ -12,7 +12,7 @@
 		<li>
 			<button
 				class={$currentLang === 'de' ? 'active' : ''}
-				on:click={() => setLanguage('de')}
+				onclick={() => setLanguage('de')}
 				aria-label="Deutsch"
 			>
 				<De />
@@ -21,8 +21,17 @@
 		<li>
 			<button
 				class={$currentLang === 'en' ? 'active' : ''}
-				on:click={() => setLanguage('en')}
+				onclick={() => setLanguage('en')}
 				aria-label="English"
+			>
+				<Gb />
+			</button>
+		</li>
+		<li>
+			<button
+				class={$currentLang === 'ae' ? 'active' : ''}
+				onclick={() => setLanguage('ae')}
+				aria-label="عربي"
 			>
 				<Ae />
 			</button>
@@ -30,7 +39,7 @@
 		<li>
 			<button
 				class={$currentLang === 'tr' ? 'active' : ''}
-				on:click={() => setLanguage('tr')}
+				onclick={() => setLanguage('tr')}
 				aria-label="Türkçe"
 			>
 				<Tr />
@@ -39,7 +48,7 @@
 		<li>
 			<button
 				class={$currentLang === 'ru' ? 'active' : ''}
-				on:click={() => setLanguage('ru')}
+				onclick={() => setLanguage('ru')}
 				aria-label="Русский"
 			>
 				<Ru />

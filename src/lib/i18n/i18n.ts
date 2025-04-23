@@ -1,13 +1,15 @@
 import { writable } from 'svelte/store';
 import de from './de.json';
 import en from './en.json';
+import ae from './ae.json';
 import ru from './ru.json';
 import tr from './tr.json';
 
 // Verfügbare Sprachen mit ihren Display-Namen
 export const languages = {
   'de': { name: 'Deutsch', flag: 'De' },
-  'en': { name: 'English', flag: 'Ae' },
+  'en': { name: 'English', flag: 'En' },
+  'ae': {name: 'عربي', flag: 'Ae'},
   'ru': { name: 'Русский', flag: 'Ru' },
   'tr': { name: 'Türkçe', flag: 'Tr' }
 };
@@ -52,6 +54,7 @@ if (typeof window !== 'undefined') {
 export const translations = {
   de,
   en,
+  ae,
   ru,
   tr
 };
