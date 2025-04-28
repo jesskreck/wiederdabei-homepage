@@ -289,6 +289,20 @@ export {};
       "submit": "سجل الآن <strong>مجانًا</strong>",
       "privacy": "سيتم التعامل مع بياناتك بسرية. يمكنك إلغاء الاشتراك في أي وقت."
     },
+    "callbackForm": {
+    "switchButton": "طلب معاودة اتصال مجانية",
+    "backToEmail": "العودة إلى نموذج البريد الإلكتروني",
+    "name": "الاسم",
+    "namePlaceholder": "الاسم الأول والأخير",
+    "phone": "رقم الهاتف",
+    "phonePlaceholder": "رقم هاتفك",
+    "submit": "طلب معاودة اتصال <strong>مجانًا</strong>",
+    "privacy": "سيتم التعامل مع بياناتك بسرية. يمكنك إلغاء الاشتراك في أي وقت."
+  },
+  "successMessages": {
+  "email": "شكرًا! سنرد عليك في أقرب وقت ممكن.",
+  "callback": "شكرًا! سنعاود الاتصال بك في أقرب وقت ممكن."
+},
     "timeline": {
       "step1": {
         "title": "سنتحدث معك لمدة 30 دقيقة.",
@@ -442,6 +456,20 @@ export {};
       "submit": "Jetzt <strong>kostenlos</strong> eintragen",
       "privacy": "Deine Daten werden vertraulich behandelt. Du kannst dich jederzeit abmelden."
     },
+    "callbackForm": {
+    "switchButton": "Kostenlosen Rückruf anfordern",
+    "backToEmail": "Zurück zum E-Mail Formular",
+    "name": "Name",
+    "namePlaceholder": "Vor- und Nachname",
+    "phone": "Telefonnummer",
+    "phonePlaceholder": "Deine Telefonnummer",
+    "submit": "Rückruf <strong>kostenlos</strong> anfordern",
+    "privacy": "Deine Daten werden vertraulich behandelt. Du kannst dich jederzeit abmelden."
+  },
+  "successMessages": {
+  "email": "Danke! Wir werden uns schnellstmöglich bei dir melden.",
+  "callback": "Danke! Wir werden dich schnellstmöglich zurückrufen."
+},
     "timeline": {
       "step1": {
         "title": "Wir sprechen 30 Minuten mit dir.",
@@ -595,6 +623,20 @@ export {};
       "submit": "Register <strong>for free</strong> now",
       "privacy": "Your data will be treated confidentially. You can unsubscribe at any time."
     },
+    "callbackForm": {
+      "switchButton": "Request free callback",
+      "backToEmail": "Back to email form",
+      "name": "Name",
+      "namePlaceholder": "First and last name",
+      "phone": "Phone number",
+      "phonePlaceholder": "Your phone number",
+      "submit": "Request callback <strong>for free</strong>",
+      "privacy": "Your data will be treated confidentially. You can unsubscribe at any time."
+    },
+    "successMessages": {
+  "email": "Thank you! We will get back to you as soon as possible.",
+  "callback": "Thank you! We will call you back as soon as possible."
+},
     "timeline": {
       "step1": {
         "title": "We talk with you for 30 minutes.",
@@ -843,6 +885,20 @@ export function setLanguage(lang: string) {
       "submit": "Зарегистрироваться <strong>бесплатно</strong> сейчас",
       "privacy": "Ваши данные будут обрабатываться конфиденциально. Вы можете отписаться в любое время."
     },
+    "callbackForm": {
+      "switchButton": "Запросить бесплатный обратный звонок",
+      "backToEmail": "Вернуться к форме электронной почты",
+      "name": "Имя",
+      "namePlaceholder": "Имя и фамилия",
+      "phone": "Номер телефона",
+      "phonePlaceholder": "Ваш номер телефона",
+      "submit": "Запросить обратный звонок <strong>бесплатно</strong>",
+      "privacy": "Ваши данные будут обрабатываться конфиденциально. Вы можете отписаться в любое время."
+    },
+    "successMessages": {
+  "email": "Спасибо! Мы свяжемся с вами в ближайшее время.",
+  "callback": "Спасибо! Мы перезвоним вам в ближайшее время."
+},
     "timeline": {
       "step1": {
         "title": "Мы поговорим с вами 30 минут.",
@@ -996,6 +1052,20 @@ export function setLanguage(lang: string) {
       "submit": "Şimdi <strong>ücretsiz</strong> kaydol",
       "privacy": "Verileriniz gizli tutulacaktır. İstediğiniz zaman abonelikten çıkabilirsiniz."
     },
+    "callbackForm": {
+    "switchButton": "Ücretsiz geri arama talep et",
+    "backToEmail": "E-posta formuna geri dön",
+    "name": "İsim",
+    "namePlaceholder": "Ad ve soyad",
+    "phone": "Telefon numarası",
+    "phonePlaceholder": "Telefon numaranız",
+    "submit": "<strong>Ücretsiz</strong> geri arama talep et",
+    "privacy": "Verileriniz gizli tutulacaktır. İstediğiniz zaman abonelikten çıkabilirsiniz."
+  },
+  "successMessages": {
+  "email": "Teşekkürler! En kısa sürede size geri döneceğiz.",
+  "callback": "Teşekkürler! En kısa sürede sizi arayacağız."
+},
     "timeline": {
       "step1": {
         "title": "Seninle 30 dakika konuşuyoruz.",
@@ -1122,13 +1192,40 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 	import '../app.css';
 	import { De, Gb, Ae, Tr, Ru } from 'svelte-flags';
 	import { currentLang, setLanguage } from '$lib/i18n/i18n';
+	import { onMount } from 'svelte';
 
 	let { children } = $props();
+	let showLanguageBar = $state(true);
+	let lastScrollY = $state(0);
+	let isAtBottom = $state(false);
+
+	onMount(() => {
+		// Prüft, ob der Nutzer am Ende der Seite ist
+		function checkIfAtBottom() {
+			const tolerance = 50; // Pixel-Toleranz für "am Ende"
+			const bottomPosition = document.documentElement.scrollHeight - window.innerHeight - tolerance;
+			isAtBottom = window.scrollY >= bottomPosition;
+			showLanguageBar = !isAtBottom;
+			lastScrollY = window.scrollY;
+		}
+
+		window.addEventListener('scroll', checkIfAtBottom);
+		
+		// Initial einmal prüfen
+		checkIfAtBottom();
+		
+		return () => {
+			window.removeEventListener('scroll', checkIfAtBottom);
+		};
+	});
 </script>
 
-<main>{@render children()}</main>
-<div class="fixed bottom-4 flex w-full items-center justify-around z-50">
-	<ul class="menu menu-horizontal bg-base-200 rounded-box shadow-lg">
+<main class="overflow-x-hidden">{@render children()}</main>
+
+{#if showLanguageBar}
+<div class="fixed bottom-4 flex w-full items-center justify-around z-50 transition-opacity duration-300" 
+     style="opacity: {showLanguageBar ? '1' : '0'}">
+	<ul class="menu menu-horizontal bg-base-200 rounded-box shadow-lg max-w-[calc(100vw-2rem)] mx-auto overflow-x-auto">
 		<li>
 			<button
 				class={$currentLang === 'de' ? 'active' : ''}
@@ -1176,6 +1273,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 		</li>
 	</ul>
 </div>
+{/if}
 ```
 
 # src\routes\+page.svelte
@@ -1183,14 +1281,17 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 ```svelte
 <script lang="ts">
 	import { TypeWriter } from 'svelte-typewrite';
-	import { t } from '$lib/i18n/i18n';
+	import { t, currentLang } from '$lib/i18n/i18n';
 	import { onMount } from 'svelte';
 
 	let email = '';
-	let submitted = false;
+	let name = '';
+	let phone = '';
+	let showCallbackForm = $state(false);
+	let submitted = $state(false);
 	let errorMessage = '';
 	let successMessage = '';
-	let isSubmitting = false;
+	let isSubmitting = $state(false);
 	let translations = {}; // Lokaler Wert für Übersetzungen
 
 	// Store-Subscription in onMount
@@ -1207,32 +1308,103 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 		return pattern.test(email);
 	}
 
-	async function handleSubmit() {
-		event?.preventDefault();
-		
-		if (!validateEmail(email)) {
-			errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
-			return;
-		}
+	function validatePhone(phone: string): boolean {
+		// Einfache Validierung für Telefonnummern
+		// Mindestens 5 Zeichen, nur Zahlen, '+', '-', ' ' und '()' erlaubt
+		const pattern = /^[0-9\+\-\(\)\s]{5,}$/;
+		return pattern.test(phone);
+	}
 
+	async function handleEmailSubmit() {
+  event?.preventDefault();
+  
+  if (!validateEmail(email)) {
+    errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+    return;
+  }
+
+  errorMessage = '';
+  isSubmitting = true;
+  
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        email,
+        type: 'email',
+        language: $currentLang 
+      })
+    });
+    const result = await response.json();
+    
+    if (!result.success) {
+      errorMessage = result.error || 'Fehler beim Speichern der E-Mail.';
+      isSubmitting = false;
+      return;
+    }
+    
+    successMessage = $t.successMessages.email;
+    submitted = true;
+    email = '';
+  } catch (err) {
+    errorMessage = 'Fehler beim Speichern der E-Mail.';
+  } finally {
+    isSubmitting = false;
+  }
+}
+
+async function handleCallbackSubmit() {
+  event?.preventDefault();
+  
+  if (!name.trim()) {
+    errorMessage = 'Bitte gib deinen Namen ein.';
+    return;
+  }
+  
+  if (!validatePhone(phone)) {
+    errorMessage = 'Bitte gib eine gültige Telefonnummer ein.';
+    return;
+  }
+
+  errorMessage = '';
+  isSubmitting = true;
+  
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        name,
+        phone, 
+        type: 'callback',
+        language: $currentLang 
+      })
+    });
+    const result = await response.json();
+    
+    if (!result.success) {
+      errorMessage = result.error || 'Fehler beim Speichern der Rückrufanfrage.';
+      isSubmitting = false;
+      return;
+    }
+    
+    successMessage = $t.successMessages.callback;
+    submitted = true;
+    name = '';
+    phone = '';
+  } catch (err) {
+    errorMessage = 'Fehler beim Speichern der Rückrufanfrage.';
+  } finally {
+    isSubmitting = false;
+  }
+}
+	
+	function toggleCallbackForm() {
+		showCallbackForm = !showCallbackForm;
+		// Reset Fehler und Erfolg beim Umschalten
 		errorMessage = '';
-		try {
-			const response = await fetch('/api/email', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email })
-			});
-			const result = await response.json();
-			if (!result.success) {
-				errorMessage = result.error || 'Fehler beim Speichern der E-Mail.';
-				return;
-			}
-			successMessage = 'Danke! Wir werden uns schnellstmöglich bei dir melden.';
-			submitted = true;
-			email = '';
-		} catch (err) {
-			errorMessage = 'Fehler beim Speichern der E-Mail.';
-		}
+		successMessage = '';
 	}
 	
 	function scrollToSection(sectionId: string) {
@@ -1256,7 +1428,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 				>
 					{$t.hero.button} <span aria-hidden="true">&rarr;</span>
 				</button>
-				<h1 class="mb-15 text-4xl font-bold md:text-5xl lg:text-6xl">
+				<h1 class="mb-15 text-4xl font-bold md:text-5xl lg:text-6xl h-20">
 					<TypeWriter texts={[$t.hero.title]} />
 				</h1>
 				<p class="mx-auto mb-25 max-w-3xl text-xl opacity-90 md:text-2xl">
@@ -1424,7 +1596,9 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 							{@html $t.emailForm.description}
 						</p>
 
-						<form onsubmit={handleSubmit}>
+						{#if !showCallbackForm}
+						<!-- Email Formular -->
+						<form onsubmit={handleEmailSubmit}>
 							<fieldset class="fieldset p-4">
 								<label class="label" for="email">{$t.emailForm.email}</label>
 						
@@ -1445,20 +1619,87 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 									<div class="text-success text-sm mt-1">{successMessage}</div>
 								{/if}
 								
-								<button 
-									type="submit" 
-									class="btn btn-secondary btn-lg mt-2 w-full"
-									disabled={isSubmitting}
-								>
-									{#if isSubmitting}
-										<span class="loading loading-spinner"></span>
-									{:else}
-										{@html $t.emailForm.submit}
-									{/if}
-								</button>
-								<p>{$t.emailForm.privacy}</p>
+								<div class="grid grid-rows-2 gap-2 mt-6">
+									<button 
+										type="submit" 
+										class="btn btn-secondary btn-lg flex-1"
+										disabled={isSubmitting}
+									>
+										{#if isSubmitting}
+											<span class="loading loading-spinner"></span>
+										{:else}
+											<span>{@html $t.emailForm.submit}</span>
+										{/if}
+									</button>
+									
+									<button 
+										type="button" 
+										class="btn btn-secondary btn-outline flex-1"
+										onclick={toggleCallbackForm}
+									>
+										{$t.callbackForm.switchButton}
+									</button>
+								</div>
+								<p class="mt-2 text-sm text-gray-600">{$t.emailForm.privacy}</p>
 							</fieldset>
 						</form>
+					{:else}
+						<!-- Rückruf Formular -->
+						<form onsubmit={handleCallbackSubmit}>
+							<fieldset class="fieldset p-4">
+								<label class="label" for="name">{$t.callbackForm.name}</label>
+								<input
+									type="text"
+									id="name"
+									class="input bg-secondary/10 text-neutral w-full {errorMessage && !name ? 'input-error' : ''}"
+									placeholder={$t.callbackForm.namePlaceholder}
+									bind:value={name}
+									required
+								/>
+								
+								<label class="label mt-2" for="phone">{$t.callbackForm.phone}</label>
+								<input
+									type="tel"
+									id="phone"
+									class="input bg-secondary/10 text-neutral w-full {errorMessage && !validatePhone(phone) ? 'input-error' : ''}"
+									placeholder={$t.callbackForm.phonePlaceholder}
+									bind:value={phone}
+									required
+								/>
+								
+								{#if errorMessage}
+									<div class="text-error text-sm mt-1">{errorMessage}</div>
+								{/if}
+								
+								{#if successMessage}
+									<div class="text-success text-sm mt-1">{successMessage}</div>
+								{/if}
+								
+								<div class="grid grid-rows-2 gap-2 mt-6">
+									<button 
+										type="submit" 
+										class="btn btn-secondary btn-lg flex-1"
+										disabled={isSubmitting}
+									>
+										{#if isSubmitting}
+											<span class="loading loading-spinner"></span>
+										{:else}
+											<span>{@html $t.callbackForm.submit}</span>
+										{/if}
+									</button>
+									
+									<button 
+										type="button" 
+										class="btn btn-outline btn-secondary"
+										onclick={toggleCallbackForm}
+									>
+										{$t.callbackForm.backToEmail}
+									</button>
+								</div>
+								<p class="mt-2 text-sm text-gray-600">{$t.callbackForm.privacy}</p>
+							</fieldset>
+						</form>
+					{/if}
 					</div>
 				</div>
 			</div>
@@ -1485,7 +1726,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step1.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step1.title}</div>
 						{$t.timeline.step1.description}
 					</div>
 					<hr />
@@ -1506,8 +1747,8 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step2.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step2.title}</div>
 						{$t.timeline.step2.description}
 					</div>
 					<hr />
@@ -1529,7 +1770,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step3.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step3.title}</div>
 						{$t.timeline.step3.description}
 					</div>
 					<hr />
@@ -1550,8 +1791,8 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step4.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step4.title}</div>
 						{$t.timeline.step4.description}
 					</div>
 					<hr />
@@ -1573,7 +1814,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step5.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step5.title}</div>
 						{$t.timeline.step5.description}
 					</div>
 					<hr />
@@ -1594,8 +1835,8 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 							/>
 						</svg>
 					</div>
-					<div class="timeline-end md:mb-10">
-						<div class="text-3xl font-bold">{$t.timeline.step6.title}</div>
+					<div class="timeline-end mb-10">
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step6.title}</div>
 						{$t.timeline.step6.description}
 					</div>
 					<hr />
@@ -1617,7 +1858,7 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-3xl font-bold">{$t.timeline.step7.title}</div>
+						<div class="text-2xl font-bold mb-3">{$t.timeline.step7.title}</div>
 						{$t.timeline.step7.description}
 					</div>
 				</li>
@@ -1725,6 +1966,80 @@ export const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
 </div>
 ```
 
+# src\routes\api\contact\+server.ts
+
+```ts
+import { json } from '@sveltejs/kit';
+import { supabase } from '$lib/supabase';
+
+export async function POST({ request }) {
+	try {
+		const body = await request.json();
+		const { email, name, phone, type, language } = body;
+
+		// Validierung basierend auf dem Anfragetyp
+		if (type === 'email') {
+			if (!email || typeof email !== 'string') {
+				return json({ success: false, error: 'Ungültige E-Mail-Adresse' }, { status: 400 });
+			}
+
+			// E-Mail in contacts Tabelle speichern mit entsprechendem Typ und Sprache
+			const { data, error } = await supabase
+				.from('contacts')
+				.insert([{ 
+					email,
+					type: 'email',
+					language: language || 'de',
+					created_at: new Date().toISOString()
+				}]);
+
+			if (error) {
+				console.error('Supabase Fehler:', error);
+				return json({ success: false, error: error.message || 'Datenbankfehler' }, { status: 500 });
+			}
+
+			return json({ success: true, data });
+		}
+		
+		// Rückrufanfrage
+		else if (type === 'callback') {
+			if (!name || typeof name !== 'string') {
+				return json({ success: false, error: 'Name ist erforderlich' }, { status: 400 });
+			}
+			if (!phone || typeof phone !== 'string') {
+				return json({ success: false, error: 'Telefonnummer ist erforderlich' }, { status: 400 });
+			}
+
+			// Rückrufanfrage in contacts Tabelle speichern
+			const { data, error } = await supabase
+				.from('contacts')
+				.insert([{ 
+					name,
+					phone,
+					type: 'callback',
+					language: language || 'de',
+					created_at: new Date().toISOString()
+				}]);
+
+			if (error) {
+				console.error('Supabase Fehler:', error);
+				return json({ success: false, error: error.message || 'Datenbankfehler' }, { status: 500 });
+			}
+
+			return json({ success: true, data });
+		}
+		
+		// Unbekannter Anfragetyp
+		else {
+			return json({ success: false, error: 'Ungültiger Anfragetyp' }, { status: 400 });
+		}
+	} catch (err) {
+		console.error('Fehler bei der Kontaktanfrage:', err);
+		return json({ success: false, error: 'Serverfehler' }, { status: 500 });
+	}
+}
+```
+
 # src\routes\api\email\+server.ts
 
 ```ts
@@ -1821,6 +2136,18 @@ export async function POST({ request }) {
     </section>
   </div>
   
+```
+
+# src\routes\wiederdabei-homepage.code-workspace
+
+```code-workspace
+{
+    "folders": [
+        {
+            "path": "../.."
+        }
+    ]
+}
 ```
 
 # static\favicon.png

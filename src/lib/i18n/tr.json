@@ -46,6 +46,20 @@
       "submit": "Şimdi <strong>ücretsiz</strong> kaydol",
       "privacy": "Verileriniz gizli tutulacaktır. İstediğiniz zaman abonelikten çıkabilirsiniz."
     },
+    "callbackForm": {
+    "switchButton": "Ücretsiz geri arama talep et",
+    "backToEmail": "E-posta formuna geri dön",
+    "name": "İsim",
+    "namePlaceholder": "Ad ve soyad",
+    "phone": "Telefon numarası",
+    "phonePlaceholder": "Telefon numaranız",
+    "submit": "<strong>Ücretsiz</strong> geri arama talep et",
+    "privacy": "Verileriniz gizli tutulacaktır. İstediğiniz zaman abonelikten çıkabilirsiniz."
+  },
+  "successMessages": {
+  "email": "Teşekkürler! En kısa sürede size geri döneceğiz.",
+  "callback": "Teşekkürler! En kısa sürede sizi arayacağız."
+},
     "timeline": {
       "step1": {
         "title": "Seninle 30 dakika konuşuyoruz.",

@@ -46,6 +46,20 @@
       "submit": "Register <strong>for free</strong> now",
       "privacy": "Your data will be treated confidentially. You can unsubscribe at any time."
     },
+    "callbackForm": {
+      "switchButton": "Request free callback",
+      "backToEmail": "Back to email form",
+      "name": "Name",
+      "namePlaceholder": "First and last name",
+      "phone": "Phone number",
+      "phonePlaceholder": "Your phone number",
+      "submit": "Request callback <strong>for free</strong>",
+      "privacy": "Your data will be treated confidentially. You can unsubscribe at any time."
+    },
+    "successMessages": {
+  "email": "Thank you! We will get back to you as soon as possible.",
+  "callback": "Thank you! We will call you back as soon as possible."
+},
     "timeline": {
       "step1": {
         "title": "We talk with you for 30 minutes.",

@@ -46,6 +46,20 @@
       "submit": "Jetzt <strong>kostenlos</strong> eintragen",
       "privacy": "Deine Daten werden vertraulich behandelt. Du kannst dich jederzeit abmelden."
     },
+    "callbackForm": {
+    "switchButton": "Kostenlosen Rückruf anfordern",
+    "backToEmail": "Zurück zum E-Mail Formular",
+    "name": "Name",
+    "namePlaceholder": "Vor- und Nachname",
+    "phone": "Telefonnummer",
+    "phonePlaceholder": "Deine Telefonnummer",
+    "submit": "Rückruf <strong>kostenlos</strong> anfordern",
+    "privacy": "Deine Daten werden vertraulich behandelt. Du kannst dich jederzeit abmelden."
+  },
+  "successMessages": {
+  "email": "Danke! Wir werden uns schnellstmöglich bei dir melden.",
+  "callback": "Danke! Wir werden dich schnellstmöglich zurückrufen."
+},
     "timeline": {
       "step1": {
         "title": "Wir sprechen 30 Minuten mit dir.",

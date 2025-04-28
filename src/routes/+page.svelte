@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { TypeWriter } from 'svelte-typewrite';
-	import { t } from '$lib/i18n/i18n';
+	import { t, currentLang } from '$lib/i18n/i18n';
 	import { onMount } from 'svelte';
 
 	let email = '';
-	let submitted = false;
+	let name = '';
+	let phone = '';
+	let showCallbackForm = $state(false);
+	let submitted = $state(false);
 	let errorMessage = '';
 	let successMessage = '';
-	let isSubmitting = false;
+	let isSubmitting = $state(false);
 	let translations = {}; // Lokaler Wert für Übersetzungen
 
 	// Store-Subscription in onMount
@@ -24,32 +27,104 @@
 		return pattern.test(email);
 	}
 
-	async function handleSubmit() {
-		event?.preventDefault();
-		
-		if (!validateEmail(email)) {
-			errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
-			return;
-		}
+	function validatePhone(phone: string): boolean {
+		// Einfache Validierung für Telefonnummern
+		// Mindestens 5 Zeichen, nur Zahlen, '+', '-', ' ' und '()' erlaubt
+		const pattern = /^[0-9\+\-\(\)\s]{5,}$/;
+		return pattern.test(phone);
+	}
 
+	async function handleEmailSubmit() {
+  event?.preventDefault();
+  
+  if (!validateEmail(email)) {
+    errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+    return;
+  }
+
+  errorMessage = '';
+  isSubmitting = true;
+  
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        email,
+        type: 'email',
+        language: $currentLang 
+      })
+    });
+    const result = await response.json();
+    
+    if (!result.success) {
+      errorMessage = result.error || 'Fehler beim Speichern der E-Mail.';
+      isSubmitting = false;
+      return;
+    }
+    
+    successMessage = $t.successMessages.email;
+    submitted = true;
+    email = '';
+    isSubmitting = false;
+  } catch (err) {
+    errorMessage = 'Fehler beim Speichern der E-Mail.';
+    isSubmitting = false;
+  }
+}
+
+async function handleCallbackSubmit() {
+  event?.preventDefault();
+  
+  if (!name.trim()) {
+    errorMessage = 'Bitte gib deinen Namen ein.';
+    return;
+  }
+  
+  if (!validatePhone(phone)) {
+    errorMessage = 'Bitte gib eine gültige Telefonnummer ein. Nur Zahlen, "+", "-", " " und Klammern sind erlaubt.';
+    return;
+  }
+
+  errorMessage = '';
+  isSubmitting = true;
+  
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        name,
+        phone, 
+        type: 'callback',
+        language: $currentLang 
+      })
+    });
+    const result = await response.json();
+    
+    if (!result.success) {
+      errorMessage = result.error || 'Fehler beim Speichern der Rückrufanfrage.';
+      isSubmitting = false;
+      return;
+    }
+    
+    successMessage = $t.successMessages.callback;
+    submitted = true;
+    name = '';
+    phone = '';
+    isSubmitting = false;
+  } catch (err) {
+    errorMessage = 'Fehler beim Speichern der Rückrufanfrage.';
+    isSubmitting = false;
+  }
+}
+	
+	function toggleCallbackForm() {
+		showCallbackForm = !showCallbackForm;
+		// Reset Fehler und Erfolg beim Umschalten
 		errorMessage = '';
-		try {
-			const response = await fetch('/api/email', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email })
-			});
-			const result = await response.json();
-			if (!result.success) {
-				errorMessage = result.error || 'Fehler beim Speichern der E-Mail.';
-				return;
-			}
-			successMessage = 'Danke! Wir werden uns schnellstmöglich bei dir melden.';
-			submitted = true;
-			email = '';
-		} catch (err) {
-			errorMessage = 'Fehler beim Speichern der E-Mail.';
-		}
+		successMessage = '';
+		submitted = false;
 	}
 	
 	function scrollToSection(sectionId: string) {
@@ -241,41 +316,117 @@
 							{@html $t.emailForm.description}
 						</p>
 
-						<form onsubmit={handleSubmit}>
-							<fieldset class="fieldset p-4">
-								<label class="label" for="email">{$t.emailForm.email}</label>
-						
-								<input
-									type="email"
-									id="email"
-									class="input bg-secondary/10 text-neutral w-full {errorMessage ? 'input-error' : ''}"
-									placeholder={$t.emailForm.placeholder}
-									bind:value={email}
-									required
-								/>
-								
-								{#if errorMessage}
-									<div class="text-error text-sm mt-1">{errorMessage}</div>
-								{/if}
-								
-								{#if successMessage}
-									<div class="text-success text-sm mt-1">{successMessage}</div>
-								{/if}
-								
-								<button 
-									type="submit" 
-									class="btn btn-secondary btn-lg mt-2 w-full"
-									disabled={isSubmitting}
-								>
-									{#if isSubmitting}
-										<span class="loading loading-spinner"></span>
-									{:else}
-										<span>{@html $t.emailForm.submit}</span>
-									{/if}
-								</button>
-								<p>{$t.emailForm.privacy}</p>
-							</fieldset>
-						</form>
+						{#if !showCallbackForm}
+<!-- Email Formular -->
+<form onsubmit={handleEmailSubmit}>
+    <fieldset class="fieldset p-4">
+        <label class="label" for="email">{$t.emailForm.email}</label>
+
+        <input
+            type="email"
+            id="email"
+            class="input bg-secondary/10 text-neutral w-full {errorMessage ? 'input-error' : ''}"
+            placeholder={$t.emailForm.placeholder}
+            bind:value={email}
+            required
+        />
+        
+        {#if errorMessage}
+            <div class="text-error text-sm mt-1">{errorMessage}</div>
+        {/if}
+        
+        {#if successMessage}
+            <div class="alert alert-success mt-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>{successMessage}</span>
+            </div>
+        {/if}
+        
+        <div class="grid grid-rows-2 gap-2 mt-6">
+            <button 
+                type="submit" 
+                class="btn btn-secondary btn-lg flex-1"
+                disabled={isSubmitting}
+            >
+                {#if isSubmitting}
+                    <span class="loading loading-spinner"></span>
+                {:else}
+                    <span>{@html $t.emailForm.submit}</span>
+                {/if}
+            </button>
+            
+            <button 
+                type="button" 
+                class="btn btn-secondary btn-outline flex-1"
+                onclick={toggleCallbackForm}
+            >
+                {$t.callbackForm.switchButton}
+            </button>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">{$t.emailForm.privacy}</p>
+    </fieldset>
+</form>
+{:else}
+<!-- Rückruf Formular -->
+<form onsubmit={handleCallbackSubmit}>
+    <fieldset class="fieldset p-4">
+        <label class="label" for="name">{$t.callbackForm.name}</label>
+        <input
+            type="text"
+            id="name"
+            class="input bg-secondary/10 text-neutral w-full {errorMessage && !name ? 'input-error' : ''}"
+            placeholder={$t.callbackForm.namePlaceholder}
+            bind:value={name}
+            required
+        />
+        
+        <label class="label mt-2" for="phone">{$t.callbackForm.phone}</label>
+        <input
+            type="tel"
+            id="phone"
+            class="input bg-secondary/10 text-neutral w-full {errorMessage && !validatePhone(phone) ? 'input-error' : ''}"
+            placeholder={$t.callbackForm.phonePlaceholder}
+            bind:value={phone}
+            required
+        />
+        
+        {#if errorMessage}
+            <div class="text-error text-sm mt-1">{errorMessage}</div>
+        {/if}
+        
+        {#if successMessage}
+            <div class="alert alert-success mt-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>{successMessage}</span>
+            </div>
+        {/if}
+        
+        <div class="grid grid-rows-2 gap-2 mt-6">
+            <button 
+                type="submit" 
+                class="btn btn-secondary btn-lg flex-1"
+                disabled={isSubmitting}
+            >
+                {#if isSubmitting}
+                    <span class="loading loading-spinner"></span>
+                {:else}
+                    <span>{@html $t.callbackForm.submit}</span>
+                {/if}
+            </button>
+            
+            <button 
+                type="button" 
+                class="btn btn-outline btn-secondary"
+                onclick={toggleCallbackForm}
+            >
+                {$t.callbackForm.backToEmail}
+            </button>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">{$t.callbackForm.privacy}</p>
+    </fieldset>
+</form>
+{/if}
+	
 					</div>
 				</div>
 			</div>
