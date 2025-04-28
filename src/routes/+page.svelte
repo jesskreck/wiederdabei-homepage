@@ -7,18 +7,17 @@
 	let name = '';
 	let phone = '';
 	let showCallbackForm = $state(false);
+	let inputError = $state(false);
 	let submitted = $state(false);
-	let errorMessage = '';
-	let successMessage = '';
 	let isSubmitting = $state(false);
 	let translations = {}; // Lokaler Wert für Übersetzungen
 
 	// Store-Subscription in onMount
 	onMount(() => {
-		const unsubscribe = t.subscribe(value => {
+		const unsubscribe = t.subscribe((value) => {
 			translations = value;
 		});
-		
+
 		return unsubscribe;
 	});
 
@@ -35,98 +34,94 @@
 	}
 
 	async function handleEmailSubmit() {
-  event?.preventDefault();
-  
-  if (!validateEmail(email)) {
-    errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
-    return;
-  }
+		submitted = false; // in case they submitted phone before
+		event?.preventDefault();
 
-  errorMessage = '';
-  isSubmitting = true;
-  
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        email,
-        type: 'email',
-        language: $currentLang 
-      })
-    });
-    const result = await response.json();
-    
-    if (!result.success) {
-      errorMessage = result.error || 'Fehler beim Speichern der E-Mail.';
-      isSubmitting = false;
-      return;
-    }
-    
-    successMessage = $t.successMessages.email;
-    submitted = true;
-    email = '';
-    isSubmitting = false;
-  } catch (err) {
-    errorMessage = 'Fehler beim Speichern der E-Mail.';
-    isSubmitting = false;
-  }
-}
+		if (!validateEmail(email)) {
+			inputError = true;
+			return;
+		}
 
-async function handleCallbackSubmit() {
-  event?.preventDefault();
-  
-  if (!name.trim()) {
-    errorMessage = 'Bitte gib deinen Namen ein.';
-    return;
-  }
-  
-  if (!validatePhone(phone)) {
-    errorMessage = 'Bitte gib eine gültige Telefonnummer ein. Nur Zahlen, "+", "-", " " und Klammern sind erlaubt.';
-    return;
-  }
+		inputError = false;
+		isSubmitting = true;
 
-  errorMessage = '';
-  isSubmitting = true;
-  
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        name,
-        phone, 
-        type: 'callback',
-        language: $currentLang 
-      })
-    });
-    const result = await response.json();
-    
-    if (!result.success) {
-      errorMessage = result.error || 'Fehler beim Speichern der Rückrufanfrage.';
-      isSubmitting = false;
-      return;
-    }
-    
-    successMessage = $t.successMessages.callback;
-    submitted = true;
-    name = '';
-    phone = '';
-    isSubmitting = false;
-  } catch (err) {
-    errorMessage = 'Fehler beim Speichern der Rückrufanfrage.';
-    isSubmitting = false;
-  }
-}
-	
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					email,
+					type: 'email',
+					language: $currentLang
+				})
+			});
+			const result = await response.json();
+
+			if (!result.success) {
+				isSubmitting = false;
+				return;
+			}
+
+			submitted = true;
+			email = '';
+			isSubmitting = false;
+		} catch (err) {
+			console.log(err);
+			isSubmitting = false;
+		}
+	}
+
+	async function handleCallbackSubmit() {
+		submitted = false; // in case they submitted email before
+		event?.preventDefault();
+
+		if (!name.trim()) {
+			inputError = true;
+			return;
+		}
+
+		if (!validatePhone(phone)) {
+			inputError = true;
+			return;
+		}
+
+		inputError = false;
+		isSubmitting = true;
+
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name,
+					phone,
+					type: 'callback',
+					language: $currentLang
+				})
+			});
+			const result = await response.json();
+
+			if (!result.success) {
+				isSubmitting = false;
+				return;
+			}
+			submitted = true;
+			name = '';
+			phone = '';
+			isSubmitting = false;
+		} catch (err) {
+			console.log(err);
+			isSubmitting = false;
+		}
+	}
+
 	function toggleCallbackForm() {
 		showCallbackForm = !showCallbackForm;
 		// Reset Fehler und Erfolg beim Umschalten
-		errorMessage = '';
-		successMessage = '';
+		inputError = false;
 		submitted = false;
 	}
-	
+
 	function scrollToSection(sectionId: string) {
 		const element = document.getElementById(sectionId);
 		if (element) {
@@ -142,29 +137,26 @@ async function handleCallbackSubmit() {
 	>
 		<div class="container mx-auto px-4">
 			<div class="text-primary-content mx-auto max-w-4xl text-center">
-				<button 
+				<button
 					class="btn btn-outline btn-sm btn-round mb-20"
 					onclick={() => scrollToSection('vorhaben')}
 				>
 					{$t.hero.button} <span aria-hidden="true">&rarr;</span>
 				</button>
-				<h1 class="mb-15 text-4xl font-bold md:text-5xl lg:text-6xl h-20">
+				<h1 class="mb-15 h-20 text-4xl font-bold md:text-5xl lg:text-6xl">
 					<TypeWriter texts={[$t.hero.title]} />
 				</h1>
 				<p class="mx-auto mb-25 max-w-3xl text-xl opacity-90 md:text-2xl">
 					{@html $t.hero.subtitle}
 				</p>
 				<div class="flex flex-col items-center justify-center gap-4 md:flex-row">
-					<button 
+					<button
 						class="btn btn-secondary btn-xl btn-wide animate-bounce"
 						onclick={() => scrollToSection('email-neuanfang')}
 					>
 						{$t.hero.cta.primary}
 					</button>
-					<button 
-						class="btn btn-outline btn-lg"
-						onclick={() => scrollToSection('email-form')}
-					>
+					<button class="btn btn-outline btn-lg" onclick={() => scrollToSection('email-form')}>
 						{$t.hero.cta.secondary}
 					</button>
 				</div>
@@ -176,7 +168,9 @@ async function handleCallbackSubmit() {
 	<section class="bg-white py-25">
 		<div class="container m-auto w-full max-w-3xl px-6">
 			<div class="grid grid-cols-2 gap-4">
-				<div class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg">
+				<div
+					class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg"
+				>
 					<div class="card-body">
 						<div class="card-title font-bold">
 							{$t.examples.title1}
@@ -185,8 +179,10 @@ async function handleCallbackSubmit() {
 						<div class="text-secondary mt-5">{@html $t.examples.description1}</div>
 					</div>
 				</div>
-				
-				<div class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg">
+
+				<div
+					class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg"
+				>
 					<div class="card-body">
 						<div class="card-title font-bold">
 							{$t.examples.title2}
@@ -195,8 +191,10 @@ async function handleCallbackSubmit() {
 						<div class="text-secondary mt-5">{@html $t.examples.description2}</div>
 					</div>
 				</div>
-				
-				<div class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg">
+
+				<div
+					class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg"
+				>
 					<div class="card-body">
 						<div class="card-title font-bold">
 							{$t.examples.title3}
@@ -205,8 +203,10 @@ async function handleCallbackSubmit() {
 						<div class="text-secondary mt-5">{@html $t.examples.description3}</div>
 					</div>
 				</div>
-				
-				<div class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg">
+
+				<div
+					class="card text-primary-content bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:10px_10px] shadow-lg"
+				>
 					<div class="card-body">
 						<div class="card-title font-bold">
 							{$t.examples.title4}
@@ -216,9 +216,10 @@ async function handleCallbackSubmit() {
 					</div>
 				</div>
 
-				<button 
-				onclick={() => scrollToSection('email-neuanfang')}
-				class="card bg-secondary text-secondary-content col-span-2 mt-5 text-center shadow-lg">
+				<button
+					onclick={() => scrollToSection('email-neuanfang')}
+					class="card bg-secondary text-secondary-content col-span-2 mt-5 text-center shadow-lg"
+				>
 					<div class="card-body">
 						<div class="text-lg font-bold">{$t.examples.card.title}</div>
 						<div class="text-lg">{$t.examples.card.subtitle}</div>
@@ -317,116 +318,137 @@ async function handleCallbackSubmit() {
 						</p>
 
 						{#if !showCallbackForm}
-<!-- Email Formular -->
-<form onsubmit={handleEmailSubmit}>
-    <fieldset class="fieldset p-4">
-        <label class="label" for="email">{$t.emailForm.email}</label>
+							<!-- Email Formular -->
+							<form onsubmit={handleEmailSubmit}>
+								<fieldset class="fieldset p-4">
+									<label class="label" for="email">{$t.emailForm.email}</label>
 
-        <input
-            type="email"
-            id="email"
-            class="input bg-secondary/10 text-neutral w-full {errorMessage ? 'input-error' : ''}"
-            placeholder={$t.emailForm.placeholder}
-            bind:value={email}
-            required
-        />
-        
-        {#if errorMessage}
-            <div class="text-error text-sm mt-1">{errorMessage}</div>
-        {/if}
-        
-        {#if successMessage}
-            <div class="alert alert-success mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>{successMessage}</span>
-            </div>
-        {/if}
-        
-        <div class="grid grid-rows-2 gap-2 mt-6">
-            <button 
-                type="submit" 
-                class="btn btn-secondary btn-lg flex-1"
-                disabled={isSubmitting}
-            >
-                {#if isSubmitting}
-                    <span class="loading loading-spinner"></span>
-                {:else}
-                    <span>{@html $t.emailForm.submit}</span>
-                {/if}
-            </button>
-            
-            <button 
-                type="button" 
-                class="btn btn-secondary btn-outline flex-1"
-                onclick={toggleCallbackForm}
-            >
-                {$t.callbackForm.switchButton}
-            </button>
-        </div>
-        <p class="mt-2 text-sm text-gray-600">{$t.emailForm.privacy}</p>
-    </fieldset>
-</form>
-{:else}
-<!-- Rückruf Formular -->
-<form onsubmit={handleCallbackSubmit}>
-    <fieldset class="fieldset p-4">
-        <label class="label" for="name">{$t.callbackForm.name}</label>
-        <input
-            type="text"
-            id="name"
-            class="input bg-secondary/10 text-neutral w-full {errorMessage && !name ? 'input-error' : ''}"
-            placeholder={$t.callbackForm.namePlaceholder}
-            bind:value={name}
-            required
-        />
-        
-        <label class="label mt-2" for="phone">{$t.callbackForm.phone}</label>
-        <input
-            type="tel"
-            id="phone"
-            class="input bg-secondary/10 text-neutral w-full {errorMessage && !validatePhone(phone) ? 'input-error' : ''}"
-            placeholder={$t.callbackForm.phonePlaceholder}
-            bind:value={phone}
-            required
-        />
-        
-        {#if errorMessage}
-            <div class="text-error text-sm mt-1">{errorMessage}</div>
-        {/if}
-        
-        {#if successMessage}
-            <div class="alert alert-success mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>{successMessage}</span>
-            </div>
-        {/if}
-        
-        <div class="grid grid-rows-2 gap-2 mt-6">
-            <button 
-                type="submit" 
-                class="btn btn-secondary btn-lg flex-1"
-                disabled={isSubmitting}
-            >
-                {#if isSubmitting}
-                    <span class="loading loading-spinner"></span>
-                {:else}
-                    <span>{@html $t.callbackForm.submit}</span>
-                {/if}
-            </button>
-            
-            <button 
-                type="button" 
-                class="btn btn-outline btn-secondary"
-                onclick={toggleCallbackForm}
-            >
-                {$t.callbackForm.backToEmail}
-            </button>
-        </div>
-        <p class="mt-2 text-sm text-gray-600">{$t.callbackForm.privacy}</p>
-    </fieldset>
-</form>
-{/if}
-	
+									<input
+										type="email"
+										id="email"
+										class="input bg-secondary/10 text-neutral w-full"
+										placeholder={$t.emailForm.placeholder}
+										bind:value={email}
+										required
+									/>
+
+									{#if inputError}
+										<div class="text-error mt-1 text-sm">{$t.errorMessages.callback}</div>
+									{/if}
+
+									{#if submitted}
+										<div class="alert alert-success mt-2">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-6 w-6 shrink-0 stroke-current"
+												fill="none"
+												viewBox="0 0 24 24"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+												/></svg
+											>
+											<span>{$t.successMessages.email}</span>
+										</div>
+									{/if}
+
+									<div class="mt-6 grid grid-rows-2 gap-2">
+										<button
+											type="submit"
+											class="btn btn-secondary btn-lg flex-1"
+											disabled={isSubmitting}
+										>
+											{#if isSubmitting}
+												<span class="loading loading-spinner"></span>
+											{:else}
+												<span>{@html $t.emailForm.submit}</span>
+											{/if}
+										</button>
+
+										<button
+											type="button"
+											class="btn btn-secondary btn-outline flex-1"
+											onclick={toggleCallbackForm}
+										>
+											{$t.callbackForm.switchButton}
+										</button>
+									</div>
+									<p>{$t.emailForm.privacy}</p>
+								</fieldset>
+							</form>
+						{:else}
+							<!-- Rückruf Formular -->
+							<form onsubmit={handleCallbackSubmit}>
+								<fieldset class="fieldset p-4">
+									<label class="label" for="name">{$t.callbackForm.name}</label>
+									<input
+										type="text"
+										id="name"
+										class="input bg-secondary/10 text-neutral w-full"
+										placeholder={$t.callbackForm.namePlaceholder}
+										bind:value={name}
+										required
+									/>
+
+									<label class="label mt-2" for="phone">{$t.callbackForm.phone}</label>
+									<input
+										type="tel"
+										id="phone"
+										class="input bg-secondary/10 text-neutral w-full"
+										placeholder={$t.callbackForm.phonePlaceholder}
+										bind:value={phone}
+										required
+									/>
+
+									{#if inputError}
+										<div class="text-error mt-1 text-sm">{$t.errorMessages.callback}</div>
+									{/if}
+
+									{#if submitted}
+										<div class="alert alert-success mt-2">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-6 w-6 shrink-0 stroke-current"
+												fill="none"
+												viewBox="0 0 24 24"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+												/></svg
+											>
+											<span>{$t.successMessages.callback}</span>
+										</div>
+									{/if}
+
+									<div class="mt-6 grid grid-rows-2 gap-2">
+										<button
+											type="submit"
+											class="btn btn-secondary btn-lg flex-1"
+											disabled={isSubmitting}
+										>
+											{#if isSubmitting}
+												<span class="loading loading-spinner"></span>
+											{:else}
+												<span>{@html $t.callbackForm.submit}</span>
+											{/if}
+										</button>
+
+										<button
+											type="button"
+											class="btn btn-outline btn-secondary"
+											onclick={toggleCallbackForm}
+										>
+											{$t.callbackForm.backToEmail}
+										</button>
+									</div>
+									<p>{$t.callbackForm.privacy}</p>
+								</fieldset>
+							</form>
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -436,7 +458,9 @@ async function handleCallbackSubmit() {
 	<!-- Value Chain Section -->
 	<section class="bg-white py-25">
 		<div class="container m-auto w-full max-w-3xl px-6">
-			<ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical text-neutral">
+			<ul
+				class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical text-neutral"
+			>
 				<li>
 					<div class="timeline-middle">
 						<svg
@@ -453,7 +477,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step1.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step1.title}</div>
 						{$t.timeline.step1.description}
 					</div>
 					<hr />
@@ -475,7 +499,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-end mb-10">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step2.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step2.title}</div>
 						{$t.timeline.step2.description}
 					</div>
 					<hr />
@@ -497,7 +521,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step3.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step3.title}</div>
 						{$t.timeline.step3.description}
 					</div>
 					<hr />
@@ -519,7 +543,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-end mb-10">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step4.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step4.title}</div>
 						{$t.timeline.step4.description}
 					</div>
 					<hr />
@@ -541,7 +565,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step5.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step5.title}</div>
 						{$t.timeline.step5.description}
 					</div>
 					<hr />
@@ -563,7 +587,7 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-end mb-10">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step6.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step6.title}</div>
 						{$t.timeline.step6.description}
 					</div>
 					<hr />
@@ -585,13 +609,13 @@ async function handleCallbackSubmit() {
 						</svg>
 					</div>
 					<div class="timeline-start mb-10 md:text-end">
-						<div class="text-2xl font-bold mb-3">{$t.timeline.step7.title}</div>
+						<div class="mb-3 text-2xl font-bold">{$t.timeline.step7.title}</div>
 						{$t.timeline.step7.description}
 					</div>
 				</li>
 			</ul>
 		</div>
-		<div class="container text-center mx-auto">
+		<div class="container mx-auto text-center">
 			<button
 				class="btn btn-secondary btn-xl btn-wide"
 				onclick={() => scrollToSection('email-form')}
@@ -624,7 +648,9 @@ async function handleCallbackSubmit() {
 		<div
 			class="text-primary-content mx-auto space-y-4 px-10 pt-16 pb-24 md:pt-24 md:pb-32 md:text-center xl:max-w-3xl xl:text-lg"
 		>
-			<h2 class="text-primary mb-6 text-center text-4xl font-bold xl:text-5xl">{$t.vorhaben.title}</h2>
+			<h2 class="text-primary mb-6 text-center text-4xl font-bold xl:text-5xl">
+				{$t.vorhaben.title}
+			</h2>
 			<p>
 				{$t.vorhaben.description1}
 			</p>
@@ -669,14 +695,14 @@ async function handleCallbackSubmit() {
 	</section>
 
 	<!-- CTA Section -->
-	<section class="py-25 px-4">
+	<section class="px-4 py-25">
 		<div class="container m-auto max-w-3xl text-center">
 			<h2 class="mb-6 text-3xl font-bold md:text-4xl">{$t.cta.title}</h2>
 			<p class="mb-8 text-xl">
 				{$t.cta.description}
 			</p>
-			<button 
-				class="btn btn-secondary animate-bounce btn-lg btn-wide"
+			<button
+				class="btn btn-secondary btn-lg btn-wide animate-bounce"
 				onclick={() => scrollToSection('email-form')}
 			>
 				{$t.cta.button}

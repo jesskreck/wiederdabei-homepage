@@ -60,6 +60,9 @@
   "email": "Teşekkürler! En kısa sürede size geri döneceğiz.",
   "callback": "Teşekkürler! En kısa sürede sizi arayacağız."
 },
+"errorMessages": {
+  "callback": "İsim veya telefon numarası geçersiz."
+},
     "timeline": {
       "step1": {
         "title": "Seninle 30 dakika konuşuyoruz.",
